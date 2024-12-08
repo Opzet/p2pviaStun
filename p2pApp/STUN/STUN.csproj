@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Authors></Authors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>CS1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright></Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageTags>stun;nat;rfc3489;rfc5389;rfc5780;rfc8489</PackageTags>
+    <Version>8.0.2</Version>
+    <PackageId>Stun.Net</PackageId>
+  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Socks5" Version="1.0.2" />
+    <PackageReference Include="Dns.Net" Version="0.2.0" />
+  </ItemGroup>
+
+</Project>
