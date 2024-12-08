@@ -4,6 +4,12 @@ using System.Text;
 using Spectre.Console;
 using STUN.Client;
 using System.Threading.Tasks;
+using Dns.Net.Abstractions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using STUN.StunResult;
+using STUN;
+using Dns.Net.Clients;
+using STUN.Enums;
 
 namespace p2pApp
 {
@@ -11,7 +17,9 @@ namespace p2pApp
     {
         private static UdpClient udpClient;
         private static IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        private static readonly IDnsClient _dnsClient = new DefaultDnsClient();
 
+        private static readonly IPEndPoint Any = new(IPAddress.Any, 0);
         static async Task Main(string[] args)
         {
             AnsiConsole.Write(
@@ -20,33 +28,42 @@ namespace p2pApp
                     .Color(Color.Cyan1));
             AnsiConsole.MarkupLine("[bold cyan]Version 1.0.0[/]");
 
-            Console.Write("Enter STUN server endpoint (default: stun.l.google.com:19302): ");
-            var stunEndPoint = ReadInputWithDefault("stun.l.google.com:19302");
-            var stunServer = new IPEndPoint(IPAddress.Parse(stunEndPoint.Split(':')[0]), int.Parse(stunEndPoint.Split(':')[1]));
+          
+            Console.Write("STUN server endpoint (stun.hot-chilli.net) ");
+            
+            IPAddress ip = await _dnsClient.QueryAsync(@"stun.hot-chilli.net");
+            using IStunClient5389 client = new StunClient5389UDP(new IPEndPoint(ip, StunServer.DefaultPort), Any);
 
-            udpClient = new UdpClient(0); // Use any available port
-            var stunClient = new StunClient5389UDP(stunServer, new IPEndPoint(IPAddress.Any, 0));
-           
-            await stunClient.QueryAsync();
-            var result = stunClient.State;
+            StunResult5389 response = await client.BindingTestAsync();
 
-            if (result.QueryError != StunError.None)
+            if (response.BindingTestResult != BindingTestResult.Success)
             {
                 AnsiConsole.MarkupLine("[bold red]An error occurred while connecting to STUN server[/]");
                 return;
             }
+                
+            if(response.MappingBehavior== MappingBehavior.Unknown);
+
+            if (response.FilteringBehavior == FilteringBehavior.Unknown) ;
+
+            var PublicEndPoint = response.PublicEndPoint;
+            var LocalEndPoint = response.LocalEndPoint;
+            var OtherEndPoint = response.OtherEndPoint;
 
             AnsiConsole.MarkupLine("[bold green]Connected to STUN server[/]");
-            AnsiConsole.MarkupLine($"[bold yellow]Public endpoint: {result.PublicEndPoint}[/]");
+            AnsiConsole.MarkupLine($"[bold yellow]Public endpoint: {PublicEndPoint}[/]");
+            AnsiConsole.MarkupLine($"[bold yellow]Local endpoint: {LocalEndPoint}[/]");
 
-            Console.Write("Enter peer IP: ");
-            var peerIp = IPAddress.Parse(Console.ReadLine());
-            Console.Write("Enter peer port: ");
-            var peerPort = int.Parse(Console.ReadLine());
-            var peerEndPoint = new IPEndPoint(peerIp, peerPort);
+
+            //Register with Rendevous server
+            AnsiConsole.MarkupLine($"[bold green]Contacting Rendevous server...[/]");
+
+
+            // QUery Rendevous server for peer
+            //var peerEndPoint = new IPEndPoint(peerIp, peerPort);
 
             AnsiConsole.MarkupLine("[bold blue]Punching UDP hole...[/]");
-            udpClient.Send(Array.Empty<byte>(), peerEndPoint);
+           // udpClient.Send(Array.Empty<byte>(), peerEndPoint);
 
             var listenerThread = new Thread(Listen);
             listenerThread.Start();
@@ -58,7 +75,7 @@ namespace p2pApp
                 if (!string.IsNullOrEmpty(message))
                 {
                     var messageDataBytes = Encoding.UTF8.GetBytes(message);
-                    udpClient.Send(messageDataBytes, peerEndPoint);
+                //    udpClient.Send(messageDataBytes, peerEndPoint);
                 }
             }
         }
