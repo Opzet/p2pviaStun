@@ -6,10 +6,12 @@ using Spectre.Console;
 var successMessage = Encoding.UTF8.GetBytes("successful");
 
 AnsiConsole.Write(
-    new FigletText("STUN Server")
+    new FigletText("STUN Rendevous - Registratoin Server")
         .Centered()
         .Color(Color.Cyan1)); // Using predefined color Cyan1
 AnsiConsole.MarkupLine("[bold cyan]Version 1.0.0[/]");
+
+//Change to an api endpoint? 
 
 Console.Write("enter listening port (default: 8080): ");
 var listeningPort = Convert.ToInt32(ReadInputWithDefault("8080", TimeSpan.FromSeconds(5)));

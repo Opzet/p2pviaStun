@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STUN", "p2pApp\STUN\STUN.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "p2pApp\STUN.UnitTest\UnitTest.csproj", "{8A5B33E3-7688-9F82-A94F-86CF2F53DEC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "p2pClientApp", "p2pClientApp\p2pClientApp.csproj", "{56F6EBDB-2DF3-47FC-A599-6F5B0D69B122}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8A5B33E3-7688-9F82-A94F-86CF2F53DEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A5B33E3-7688-9F82-A94F-86CF2F53DEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A5B33E3-7688-9F82-A94F-86CF2F53DEC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56F6EBDB-2DF3-47FC-A599-6F5B0D69B122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56F6EBDB-2DF3-47FC-A599-6F5B0D69B122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56F6EBDB-2DF3-47FC-A599-6F5B0D69B122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56F6EBDB-2DF3-47FC-A599-6F5B0D69B122}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

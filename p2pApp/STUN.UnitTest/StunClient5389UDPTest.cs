@@ -13,7 +13,7 @@ using System.Net;
 namespace UnitTest;
 
 [TestClass]
-public class StunClien5389UDPTest
+public class StunClient5389UDPTest
 {
 	private readonly IDnsClient _dnsClient = new DefaultDnsClient();
 

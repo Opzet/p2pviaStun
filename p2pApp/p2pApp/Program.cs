@@ -23,7 +23,7 @@ namespace p2pApp
         static async Task Main(string[] args)
         {
             AnsiConsole.Write(
-                new FigletText("Peer Client")
+                new FigletText("Peer Client- StunClient5389UDP")
                     .Centered()
                     .Color(Color.Cyan1));
             AnsiConsole.MarkupLine("[bold cyan]Version 1.0.0[/]");
