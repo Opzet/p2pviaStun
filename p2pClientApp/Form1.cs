@@ -53,9 +53,77 @@ namespace p2pClientApp
                 ;
 
             txtPublicEndPoint.Text = response.PublicEndPoint.ToString();
-            txtLocalEndPoint.Text = response.LocalEndPoint.ToString(); ;
-            txtOtherEndPoint.Text = response.OtherEndPoint.ToString(); ;
+            txtLocalEndPoint.Text = response.LocalEndPoint.ToString();
+            ;
+            txtOtherEndPoint.Text = response.OtherEndPoint.ToString();
+            ;
 
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+
+            IPAddress ip = await _dnsClient.QueryAsync(@"stun.hot-chilli.net");
+            using IStunClient5389 client = new StunClient5389TCP(new IPEndPoint(ip, StunServer.DefaultPort), Any);
+
+            StunResult5389 response = await client.BindingTestAsync();
+
+
+            if (response.BindingTestResult != BindingTestResult.Success)
+            {
+                txtPublicEndPoint.Text = "An error occurred while connecting to STUN server";
+                return;
+            }
+
+            if (response.MappingBehavior == MappingBehavior.Unknown)
+                ;
+
+            if (response.FilteringBehavior == FilteringBehavior.Unknown)
+                ;
+
+            txtPublicEndPoint.Text = response.PublicEndPoint.ToString();
+            txtLocalEndPoint.Text = response.LocalEndPoint.ToString();
+            ;
+            txtOtherEndPoint.Text = response.OtherEndPoint.ToString();
+            ;
+        }
+
+        private async void btnGetStunServerList_Click(object sender, EventArgs e)
+        {
+            //"https://raw.githubusercontent.com/pradt2/always-online-stun/master/valid_hosts_tcp.txt";
+
+            txtSTUNServerList.Text = "";
+            StunServer server = new();
+            string[] list = await server.GetSTUNServerListAsync();
+
+            foreach (string host in list)
+            {
+                try
+                {
+                    txtSTUNServerList.Text += ".";
+
+                    if (!HostnameEndpoint.TryParse(host, out HostnameEndpoint? hostEndpoint, StunServer.DefaultPort))
+                    {
+                        txtSTUNServerList.Text = "No Host List ??";
+                        continue;
+                    }
+                    IPAddress ip = _dnsClient.Query(hostEndpoint.Hostname);
+                    using IStunClient5389 client = new StunClient5389TCP(new IPEndPoint(ip, hostEndpoint.Port), null);
+                    
+                    
+                    await client.QueryAsync();
+                    if (client.State.MappingBehavior is MappingBehavior.AddressAndPortDependent or MappingBehavior.AddressDependent or MappingBehavior.EndpointIndependent or MappingBehavior.Direct)
+                    {
+                        //Valid servers
+                        txtSTUNServerList.Text += host +"\n"; //.Append
+                    }
+                }
+                catch
+                {
+                    // ignored
+                    txtSTUNServerList.Text += "error..\r\n";
+                }
+            }
         }
     }
 }

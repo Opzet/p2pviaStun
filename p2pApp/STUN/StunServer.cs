@@ -42,31 +42,37 @@ public class StunServer
 
         string[] list = listRaw.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-        foreach (string host in list)
+        List<string> validServers = new();
+
+        await Parallel.ForEachAsync(list, async (host, cancellationToken) =>
         {
             try
             {
                 if (!HostnameEndpoint.TryParse(host, out HostnameEndpoint? hostEndpoint, StunServer.DefaultPort))
                 {
-                    continue;
+                    return;
                 }
 
-                IPAddress ip = _dnsClient.Query(hostEndpoint.Hostname);
+                IPAddress ip = await _dnsClient.QueryAsync(hostEndpoint.Hostname);
                 using IStunClient5389 client = new StunClient5389TCP(new IPEndPoint(ip, hostEndpoint.Port), null);
 
-                await client.QueryAsync();
+                await client.QueryAsync(cancellationToken);
 
                 if (client.State.MappingBehavior is MappingBehavior.AddressAndPortDependent or MappingBehavior.AddressDependent or MappingBehavior.EndpointIndependent or MappingBehavior.Direct)
                 {
-                    Console.WriteLine(host);
+                    lock (validServers)
+                    {
+                        validServers.Add(host);
+                    }
                 }
             }
             catch
             {
                 // ignored
             }
-        }
-        return list;
+        });
+
+        return validServers.ToArray();
     }
 
     private StunServer(string hostname, ushort port)
