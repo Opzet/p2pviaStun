@@ -27,13 +27,13 @@ namespace p2pClientApp
         private static UdpClient udpClient;
         private static IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
         private static readonly IDnsClient _dnsClient = new DefaultDnsClient();
-
+        private static readonly IPEndPoint Any = new(IPAddress.Any, 0);
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void btnGetPublicAddress_Click(object sender, EventArgs e)
+        private async void btnGetPublicAddress_Click(object sender, EventArgs e)
         {
             IPAddress ip = await _dnsClient.QueryAsync(@"stun.hot-chilli.net");
             using IStunClient5389 client = new StunClient5389UDP(new IPEndPoint(ip, StunServer.DefaultPort), Any);
@@ -42,7 +42,7 @@ namespace p2pClientApp
 
             if (response.BindingTestResult != BindingTestResult.Success)
             {
-              //  AnsiConsole.MarkupLine("[bold red]An error occurred while connecting to STUN server[/]");
+                txtPublicEndPoint.Text = "An error occurred while connecting to STUN server";
                 return;
             }
 
@@ -52,9 +52,9 @@ namespace p2pClientApp
             if (response.FilteringBehavior == FilteringBehavior.Unknown)
                 ;
 
-            var PublicEndPoint = response.PublicEndPoint;
-            var LocalEndPoint = response.LocalEndPoint;
-            var OtherEndPoint = response.OtherEndPoint;
+            txtPublicEndPoint.Text = response.PublicEndPoint.ToString();
+            txtLocalEndPoint.Text = response.LocalEndPoint.ToString(); ;
+            txtOtherEndPoint.Text = response.OtherEndPoint.ToString(); ;
 
         }
     }
