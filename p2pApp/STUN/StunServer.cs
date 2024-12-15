@@ -33,7 +33,7 @@ public class StunServer
         Port = DefaultPort;
     }
 
-    public async Task<string[]> GetSTUNServerListAsync(IProgress<string> progress = null)
+    public async Task<string[]> GetSTUNServerListAsync(IProgress<string>? progress = null)
     {
         const string url = @"https://raw.githubusercontent.com/pradt2/always-online-stun/master/valid_hosts_tcp.txt";
         HttpClient httpClient = new();
@@ -57,11 +57,14 @@ public class StunServer
                 }
 
                 IPAddress ip = await _dnsClient.QueryAsync(hostEndpoint.Hostname);
-                using IStunClient5389 client = new StunClient5389TCP(new IPEndPoint(ip, hostEndpoint.Port), null);
+                using IStunClient5389 client = new StunClient5389TCP(new IPEndPoint(ip, hostEndpoint.Port), new IPEndPoint(IPAddress.Any, 0));
 
                 await client.QueryAsync(cancellationToken);
 
-                if (client.State.MappingBehavior is MappingBehavior.AddressAndPortDependent or MappingBehavior.AddressDependent or MappingBehavior.EndpointIndependent or MappingBehavior.Direct)
+                var mappingBehavior = client.State.MappingBehavior;
+                var filteringBehavior = client.State.FilteringBehavior;
+
+                if (mappingBehavior is MappingBehavior.AddressAndPortDependent or MappingBehavior.AddressDependent or MappingBehavior.EndpointIndependent or MappingBehavior.Direct)
                 {
                     lock (validServers)
                     {
@@ -71,7 +74,7 @@ public class StunServer
                 }
                 else
                 {
-                    progress?.Report($"Invalid server: {host}");
+                    progress?.Report($"Invalid server: {host} (MappingBehavior: {mappingBehavior}, FilteringBehavior: {filteringBehavior})");
                 }
             }
             catch (Exception ex)
