@@ -33,8 +33,31 @@ public class StunServer
         Port = DefaultPort;
     }
 
+
     public async Task<string[]> GetSTUNServerListAsync(IProgress<string>? progress = null)
     {
+
+        var publicStunServers = new List<string>
+          {
+            "stun.l.google.com:19302",
+                "stun1.l.google.com:19302",
+                "stun2.l.google.com:19302",
+                "stun3.l.google.com:19302",
+                "stun4.l.google.com:19302",
+                "stun.stunprotocol.org:3478",
+                "stun.sipgate.net:3478",
+                "stun.ideasip.com:3478",
+                "stun.ekiga.net:3478",
+                "stun.rixtelecom.se:3478",
+                "stun.schlund.de:3478",
+                "stun.stunprotocol.org:3478",
+                "stun.voiparound.com:3478",
+                "stun.voipbuster.com:3478",
+                "stun.voipstunt.com:3478",
+                "stun.voxgratia.org:3478",
+                "stun.xten.com:3478"
+            };
+
         const string url = @"https://raw.githubusercontent.com/pradt2/always-online-stun/master/valid_hosts_tcp.txt";
         HttpClient httpClient = new();
 

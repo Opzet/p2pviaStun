@@ -17,6 +17,8 @@ using STUN.StunResult;
 using STUN;
 using Dns.Net.Clients;
 using STUN.Enums;
+using System.Net.Http;
+using System.Windows;
 
 
 namespace p2pClientApp
@@ -144,5 +146,32 @@ namespace p2pClientApp
         {
 
         }
+
+        private async void btnRendevousRegister_Click(object sender, EventArgs e)
+        {
+            // Register on Rendevous Server
+
+           
+            // Get Public IP Address
+
+            // Get Public Port
+
+            // Register on Rendevous Server
+            /*
+            using HttpClient httpClient = new();
+            var content = new FormUrlEncodedContent(new[]
+            {
+                        new KeyValuePair<string, string>("ip", publicIp),
+                        new KeyValuePair<string, string>("port", publicPort.ToString())
+            });
+
+            HttpResponseMessage result = await httpClient.PostAsync($"http://{server}/register", content);
+            string resultContent = await result.Content.ReadAsStringAsync();
+
+            txtSTUNServerList.Text += $"Registered on {server}: {resultContent}\r\n";
+
+            */
+        }
+
     }
 }

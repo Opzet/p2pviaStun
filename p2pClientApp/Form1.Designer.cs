@@ -33,15 +33,15 @@
             txtPublicPort = new System.Windows.Forms.TextBox();
             txtLocalEndPoint = new System.Windows.Forms.TextBox();
             txtOtherEndPoint = new System.Windows.Forms.TextBox();
-            button1 = new System.Windows.Forms.Button();
             txtSTUNServerList = new System.Windows.Forms.TextBox();
             btnGetStunServerList = new System.Windows.Forms.Button();
             txtProgress = new System.Windows.Forms.TextBox();
+            btnRendevousRegister = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // btnGetPublicAddress
             // 
-            btnGetPublicAddress.Location = new System.Drawing.Point(580, 28);
+            btnGetPublicAddress.Location = new System.Drawing.Point(577, 55);
             btnGetPublicAddress.Margin = new System.Windows.Forms.Padding(4);
             btnGetPublicAddress.Name = "btnGetPublicAddress";
             btnGetPublicAddress.Size = new System.Drawing.Size(236, 136);
@@ -102,17 +102,6 @@
             txtOtherEndPoint.Text = "...";
             txtOtherEndPoint.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // button1
-            // 
-            button1.Location = new System.Drawing.Point(580, 215);
-            button1.Margin = new System.Windows.Forms.Padding(4);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(236, 136);
-            button1.TabIndex = 5;
-            button1.Text = "Get My Public Address\r\nStunClient5389TCP";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // txtSTUNServerList
             // 
             txtSTUNServerList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -120,14 +109,14 @@
             txtSTUNServerList.Multiline = true;
             txtSTUNServerList.Name = "txtSTUNServerList";
             txtSTUNServerList.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            txtSTUNServerList.Size = new System.Drawing.Size(366, 478);
+            txtSTUNServerList.Size = new System.Drawing.Size(532, 478);
             txtSTUNServerList.TabIndex = 6;
             txtSTUNServerList.Text = "<Ready>";
             txtSTUNServerList.TextChanged += txtSTUNServerList_TextChanged;
             // 
             // btnGetStunServerList
             // 
-            btnGetStunServerList.Location = new System.Drawing.Point(910, 748);
+            btnGetStunServerList.Location = new System.Drawing.Point(135, 251);
             btnGetStunServerList.Name = "btnGetStunServerList";
             btnGetStunServerList.Size = new System.Drawing.Size(159, 87);
             btnGetStunServerList.TabIndex = 7;
@@ -146,15 +135,25 @@
             txtProgress.TabIndex = 8;
             txtProgress.Text = "<Ready>";
             // 
+            // btnRendevousRegister
+            // 
+            btnRendevousRegister.Location = new System.Drawing.Point(576, 218);
+            btnRendevousRegister.Name = "btnRendevousRegister";
+            btnRendevousRegister.Size = new System.Drawing.Size(236, 105);
+            btnRendevousRegister.TabIndex = 9;
+            btnRendevousRegister.Text = "Register on Rendevous Server";
+            btnRendevousRegister.UseVisualStyleBackColor = true;
+            btnRendevousRegister.Click += btnRendevousRegister_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1082, 848);
+            Controls.Add(btnRendevousRegister);
             Controls.Add(txtProgress);
             Controls.Add(btnGetStunServerList);
             Controls.Add(txtSTUNServerList);
-            Controls.Add(button1);
             Controls.Add(txtOtherEndPoint);
             Controls.Add(txtLocalEndPoint);
             Controls.Add(txtPublicPort);
@@ -175,10 +174,10 @@
         private System.Windows.Forms.TextBox txtPublicPort;
         private System.Windows.Forms.TextBox txtLocalEndPoint;
         private System.Windows.Forms.TextBox txtOtherEndPoint;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox txtSTUNServerList;
         private System.Windows.Forms.Button btnGetStunServerList;
         private System.Windows.Forms.TextBox txtProgress;
+        private System.Windows.Forms.Button btnRendevousRegister;
     }
 }
 
