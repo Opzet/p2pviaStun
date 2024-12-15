@@ -70,11 +70,11 @@ public class StunServer
                     {
                         validServers.Add(host);
                     }
-                    progress?.Report($"Valid server found: {host}");
+                    progress?.Report($"Valid server found: {host} MappingBehavior: {mappingBehavior}, FilteringBehavior: {{filteringBehavior}})");
                 }
                 else
                 {
-                    progress?.Report($"Invalid server: {host} (MappingBehavior: {mappingBehavior}, FilteringBehavior: {filteringBehavior})");
+                    //progress?.Report($"Invalid server: {host} (MappingBehavior: {mappingBehavior}, FilteringBehavior: {filteringBehavior})");
                 }
             }
             catch (Exception ex)

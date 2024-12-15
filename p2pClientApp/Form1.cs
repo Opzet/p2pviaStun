@@ -92,10 +92,10 @@ namespace p2pClientApp
         {
             //"https://raw.githubusercontent.com/pradt2/always-online-stun/master/valid_hosts_tcp.txt";
 
-            txtSTUNServerList.Text = "";
+            txtProgress.Text = txtSTUNServerList.Text = "";
             StunServer stunServer = new();
-           
-            var progress = new Progress<string>(message => txtSTUNServerList.Text +=message+"\r\n");
+
+            var progress = new Progress<string>(message => txtProgress.Text += message + "\r\n");
             string[] validServers = await stunServer.GetSTUNServerListAsync(progress);
 
 
@@ -103,30 +103,46 @@ namespace p2pClientApp
             {
                 try
                 {
-                    txtSTUNServerList.Text += ".";
+                    txtSTUNServerList.Text += $"{host} \r\n"; //.Append
 
                     if (!HostnameEndpoint.TryParse(host, out HostnameEndpoint? hostEndpoint, StunServer.DefaultPort))
                     {
-                        txtSTUNServerList.Text = "No Host List ??";
+                        txtSTUNServerList.Text += "No Host List ??";
                         continue;
                     }
+
+
+                    //Test here with valid server
                     IPAddress ip = _dnsClient.Query(hostEndpoint.Hostname);
-                    using IStunClient5389 client = new StunClient5389TCP(new IPEndPoint(ip, hostEndpoint.Port), null);
-                    
-                    
+                    using IStunClient5389 client = new StunClient5389UDP(new IPEndPoint(ip, hostEndpoint.Port), null);
+
+
                     await client.QueryAsync();
+                    //txtSTUNServerList.Text += client.State.MappingBehavior.ToString() + "\r\n";
                     if (client.State.MappingBehavior is MappingBehavior.AddressAndPortDependent or MappingBehavior.AddressDependent or MappingBehavior.EndpointIndependent or MappingBehavior.Direct)
                     {
                         //Valid servers
-                        txtSTUNServerList.Text += $"Valid : {host} \n"; //.Append
+                        txtSTUNServerList.Text += $"UDP OK: {host} \r\n"; //.Append
                     }
                 }
                 catch
                 {
                     // ignored
-                    txtSTUNServerList.Text += "error..\r\n";
+                    //txtSTUNServerList.Text += "error..\r\n";
                 }
             }
+
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSTUNServerList_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -36,6 +36,7 @@
             button1 = new System.Windows.Forms.Button();
             txtSTUNServerList = new System.Windows.Forms.TextBox();
             btnGetStunServerList = new System.Windows.Forms.Button();
+            txtProgress = new System.Windows.Forms.TextBox();
             SuspendLayout();
             // 
             // btnGetPublicAddress
@@ -115,29 +116,42 @@
             // txtSTUNServerList
             // 
             txtSTUNServerList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            txtSTUNServerList.Location = new System.Drawing.Point(12, 358);
+            txtSTUNServerList.Location = new System.Drawing.Point(538, 358);
             txtSTUNServerList.Multiline = true;
             txtSTUNServerList.Name = "txtSTUNServerList";
             txtSTUNServerList.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            txtSTUNServerList.Size = new System.Drawing.Size(804, 477);
+            txtSTUNServerList.Size = new System.Drawing.Size(366, 478);
             txtSTUNServerList.TabIndex = 6;
             txtSTUNServerList.Text = "<Ready>";
+            txtSTUNServerList.TextChanged += txtSTUNServerList_TextChanged;
             // 
             // btnGetStunServerList
             // 
-            btnGetStunServerList.Location = new System.Drawing.Point(833, 748);
+            btnGetStunServerList.Location = new System.Drawing.Point(910, 748);
             btnGetStunServerList.Name = "btnGetStunServerList";
-            btnGetStunServerList.Size = new System.Drawing.Size(236, 87);
+            btnGetStunServerList.Size = new System.Drawing.Size(159, 87);
             btnGetStunServerList.TabIndex = 7;
             btnGetStunServerList.Text = "Get Stun Servers";
             btnGetStunServerList.UseVisualStyleBackColor = true;
             btnGetStunServerList.Click += btnGetStunServerList_Click;
+            // 
+            // txtProgress
+            // 
+            txtProgress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            txtProgress.Location = new System.Drawing.Point(13, 358);
+            txtProgress.Multiline = true;
+            txtProgress.Name = "txtProgress";
+            txtProgress.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            txtProgress.Size = new System.Drawing.Size(519, 478);
+            txtProgress.TabIndex = 8;
+            txtProgress.Text = "<Ready>";
             // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1082, 848);
+            Controls.Add(txtProgress);
             Controls.Add(btnGetStunServerList);
             Controls.Add(txtSTUNServerList);
             Controls.Add(button1);
@@ -149,6 +163,7 @@
             Margin = new System.Windows.Forms.Padding(4);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -163,6 +178,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox txtSTUNServerList;
         private System.Windows.Forms.Button btnGetStunServerList;
+        private System.Windows.Forms.TextBox txtProgress;
     }
 }
 
