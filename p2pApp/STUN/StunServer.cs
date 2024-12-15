@@ -28,28 +28,31 @@ public class StunServer
 
     public StunServer()
     {
-        //Change to a retry mechanism of stun servers
+        // Change to a retry mechanism of stun servers
         Hostname = @"stun.syncthing.net";
         Port = DefaultPort;
     }
 
-    public async Task<string[]> GetSTUNServerListAsync()
+    public async Task<string[]> GetSTUNServerListAsync(IProgress<string> progress = null)
     {
         const string url = @"https://raw.githubusercontent.com/pradt2/always-online-stun/master/valid_hosts_tcp.txt";
         HttpClient httpClient = new();
 
         string listRaw = await httpClient.GetStringAsync(url);
+        progress?.Report("Fetched STUN server list.");
 
         string[] list = listRaw.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
         List<string> validServers = new();
 
         await Parallel.ForEachAsync(list, async (host, cancellationToken) =>
         {
             try
             {
+                progress?.Report($"Processing host: {host}");
+
                 if (!HostnameEndpoint.TryParse(host, out HostnameEndpoint? hostEndpoint, StunServer.DefaultPort))
                 {
+                    progress?.Report($"Failed to parse host: {host}");
                     return;
                 }
 
@@ -64,14 +67,20 @@ public class StunServer
                     {
                         validServers.Add(host);
                     }
+                    progress?.Report($"Valid server found: {host}");
+                }
+                else
+                {
+                    progress?.Report($"Invalid server: {host}");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // ignored
+                progress?.Report($"Error processing host {host}: {ex.Message}");
             }
         });
 
+        progress?.Report("Completed processing STUN server list.");
         return validServers.ToArray();
     }
 

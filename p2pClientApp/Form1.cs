@@ -93,10 +93,13 @@ namespace p2pClientApp
             //"https://raw.githubusercontent.com/pradt2/always-online-stun/master/valid_hosts_tcp.txt";
 
             txtSTUNServerList.Text = "";
-            StunServer server = new();
-            string[] list = await server.GetSTUNServerListAsync();
+            StunServer stunServer = new();
+           
+            var progress = new Progress<string>(message => txtSTUNServerList.Text +=message+"\r\n");
+            string[] validServers = await stunServer.GetSTUNServerListAsync(progress);
 
-            foreach (string host in list)
+
+            foreach (string host in validServers)
             {
                 try
                 {
@@ -115,7 +118,7 @@ namespace p2pClientApp
                     if (client.State.MappingBehavior is MappingBehavior.AddressAndPortDependent or MappingBehavior.AddressDependent or MappingBehavior.EndpointIndependent or MappingBehavior.Direct)
                     {
                         //Valid servers
-                        txtSTUNServerList.Text += host +"\n"; //.Append
+                        txtSTUNServerList.Text += $"Valid : {host} \n"; //.Append
                     }
                 }
                 catch

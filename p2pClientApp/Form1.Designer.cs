@@ -115,17 +115,17 @@
             // txtSTUNServerList
             // 
             txtSTUNServerList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            txtSTUNServerList.Location = new System.Drawing.Point(37, 337);
+            txtSTUNServerList.Location = new System.Drawing.Point(12, 358);
             txtSTUNServerList.Multiline = true;
             txtSTUNServerList.Name = "txtSTUNServerList";
             txtSTUNServerList.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            txtSTUNServerList.Size = new System.Drawing.Size(496, 211);
+            txtSTUNServerList.Size = new System.Drawing.Size(804, 477);
             txtSTUNServerList.TabIndex = 6;
             txtSTUNServerList.Text = "<Ready>";
             // 
             // btnGetStunServerList
             // 
-            btnGetStunServerList.Location = new System.Drawing.Point(580, 412);
+            btnGetStunServerList.Location = new System.Drawing.Point(833, 748);
             btnGetStunServerList.Name = "btnGetStunServerList";
             btnGetStunServerList.Size = new System.Drawing.Size(236, 87);
             btnGetStunServerList.TabIndex = 7;
@@ -137,7 +137,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(867, 576);
+            ClientSize = new System.Drawing.Size(1082, 848);
             Controls.Add(btnGetStunServerList);
             Controls.Add(txtSTUNServerList);
             Controls.Add(button1);
